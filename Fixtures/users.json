@@ -1,0 +1,23 @@
+{
+  "validUser": {
+    "email": "testadminadd@tset.com",
+    "password": "Test@123"
+  },
+  "invalidUser": {
+    "email": "unregistered@example.com",
+    "password": "InvalidPass123"
+  },
+  "salesAgent": {
+    "email": "2maysalesagent@test.com",
+    "password": "Test@123"
+  },
+  "salesAgentAppraiser": {
+    "email": "2createtest@tetsing.com",
+    "password": "Test@1234"
+  },
+  "admin": {
+    "email": "dptesthgc@gmail.com",
+    "password": "Test@1234"
+  }
+}
+

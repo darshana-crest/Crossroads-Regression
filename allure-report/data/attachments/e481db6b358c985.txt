@@ -1,0 +1,6 @@
+{
+  firstName: 'Dewey',
+  lastName: 'Hahn',
+  email: 'test1778657920433@gmail.com',
+  phone: '+1242 470 5815'
+}
