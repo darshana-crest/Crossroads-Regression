@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 
 import { LoginPageFaker } from '../pages/LoginPageFaker';
-import { ContactPage } from '../Pages/ContactPage';
+import { CreateContactPage } from '../Pages/CreateContactPage';
 
 import { generateContactData } from '../utils/testData';
 
@@ -13,13 +13,13 @@ test('TC01 - Create Contact', async ({ page }) => {
 
     // Page Objects
     const loginPage = new LoginPageFaker(page);
-    const contactPage = new ContactPage(page);
+    const contactPage = new CreateContactPage(page);
 
     // Login
     await loginPage.goto();
 
     await loginPage.login(
-        'dptesthgc@gmail.com',
+        'darshana.p@crestinfosystems.com',
         'Test@1234'
     );
 
@@ -41,18 +41,25 @@ test('TC01 - Create Contact', async ({ page }) => {
 
 
 test('TC02 - selected Contact get Download', async ({ page }) => {
-  await page.goto('https://stage-crossroads20.hgchristie.net/signin');
- 
-  await page.getByRole('textbox', { name: 'Email' }).fill('dptesthgc@gmail.com');
-  await page.getByRole('textbox', { name: 'Password' }).fill('Test@1234');
-  await page.getByRole('button', { name: 'Login' }).click();
-  await page.goto('https://stage-crossroads20.hgchristie.net/dashboard');
-  await page.getByRole('button', { name: 'Contacts' }).click();
-  await page.getByRole('link', { name: 'All Contacts' }).click();
-  await page.getByRole('row', { name: 'testing Automate data +1 242' }).getByRole('checkbox').check();
-  await page.getByRole('row', { name: 'testing Automation +1 242 121' }).getByRole('checkbox').check();
-  await page.getByRole('row', { name: 'Test Listing Announcement +1' }).getByRole('checkbox').check();
-  const downloadPromise = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Download', exact: true }).click();
-  const download = await downloadPromise;
+
+    const loginPage = new LoginPageFaker(page);
+
+    const createContactPage = new CreateContactPage(page);
+
+    // Login
+    await loginPage.goto();
+
+    await loginPage.login(
+        'darshana.p@crestinfosystems.com',
+        'Test@1234'
+    );
+
+    // Navigate
+    await createContactPage.navigateToAllContacts();
+
+    // Select top 3 contacts
+    await createContactPage.selectTopThreeContacts();
+    // Download
+    const download = await createContactPage.downloadContacts();
+
 });

@@ -1,4 +1,4 @@
-export class ContactsPage {
+export class CreateContactPage {
 
     constructor(page) {
 
@@ -26,13 +26,22 @@ export class ContactsPage {
         this.downloadBtn = page.getByRole('button', { name: 'Download', exact: true });
     }
 
+
+// Navigate to Add Contact Page
     async navigateToAddContact() {
 
-        await this.contactsButton.click();
-        await this.allContactsLink.click();
-        await this.addButton.click();
-    }
+    await this.contactsButton.click();
 
+    await this.allContactsLink.click();
+
+    await this.page.waitForLoadState('networkidle');
+
+    await this.addButton.waitFor({ state: 'visible' });
+
+    await this.addButton.click();
+}
+
+// Navigate to All Contacts Page
     async createContact(data) {
 
         await this.firstNameTextbox.fill(data.firstName);
@@ -44,16 +53,36 @@ export class ContactsPage {
         await this.emailTextbox.fill(data.email);
     }
 
+    // Save Contact
     async saveContact() {
         await this.saveButton.click();
     }
 
-    async selectContact(rowName) {
-    await this.page
-      .getByRole('row', { name: rowName })
-      .getByRole('checkbox')
-      .check();
-  }
+
+// Navigate to All Contacts Page
+async navigateToAllContacts() {
+
+    await this.contactsButton.click();
+
+    await this.allContactsLink.click();
+
+    await this.page.waitForLoadState('networkidle');
+}
+
+
+// Select Contact
+  async selectTopThreeContacts() {
+
+    const checkboxes = this.page.locator(
+        'tbody input[type="checkbox"]'
+    );
+
+    await checkboxes.nth(0).check();
+
+    await checkboxes.nth(1).check();
+
+    await checkboxes.nth(2).check();
+}
 
   async downloadContacts() {
     const downloadPromise = this.page.waitForEvent('download');
@@ -62,4 +91,3 @@ export class ContactsPage {
   }
 }
 
-module.exports = { ContactsPage };
